@@ -1,5 +1,5 @@
 -- =========================================================================
--- MENU TỔNG HỢP SCRIPT - TRỌNG VŨ HUB (CẬP NHẬT KEY CHO TOÀN BỘ MENU CHÍNH)
+-- MENU TỔNG HỢP SCRIPT - TRỌNG VŨ HUB (CÓ ANTI-LIVE KICK KHI ĐỔI KEY)
 -- =========================================================================
 
 -- Xóa Menu cũ nếu có để tránh trùng lặp giao diện
@@ -12,7 +12,11 @@ local MENU_KEY_URL = "https://raw.githubusercontent.com/trongvule39-art/menu/ref
 local ZEPHYR_KEY_URL = "https://raw.githubusercontent.com/trongvule39-art/key/refs/heads/main/key.txt"
 local ANTIAFK_KEY = "AFKHKSEX"
 
--- Khởi tạo Giao Diện Chính (GUI) nhưng ẩn đi trước khi check Key Menu thành công
+-- Biến lưu trữ Key mà người dùng đã nhập thành công để đối chiếu liên tục
+local UserEnteredKey = ""
+local KeyVerificationSuccess = false
+
+-- Khởi tạo Giao Diện Chính (GUI)
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
@@ -25,7 +29,7 @@ ScreenGui.Parent = game:GetService("CoreGui")
 ScreenGui.ResetOnSpawn = false
 
 -- =========================================================================
--- HỆ THỐNG KIỂM TRA KEY CHUNG (CHO CẢ MENU CHÍNH VÀ SCRIPT CON)
+-- HỆ THỐNG KIỂM TRA KEY CHUNG
 -- =========================================================================
 local function PromptKeySystem(parentFrame, titleText, keyValue, isUrl, successCallback, failCallback)
     local BlurFrame = Instance.new("TextButton")
@@ -123,6 +127,7 @@ local function PromptKeySystem(parentFrame, titleText, keyValue, isUrl, successC
         end
         
         if fetchSuccess and TextBox.Text == correctKey then
+            UserEnteredKey = TextBox.Text -- Ghi nhớ key người dùng nhập để vòng lặp quét ngầm
             BlurFrame:Destroy()
             task.spawn(successCallback)
         else
@@ -140,7 +145,7 @@ local function PromptKeySystem(parentFrame, titleText, keyValue, isUrl, successC
 end
 
 -- =========================================================================
--- KHỞI TẠO FRAME SAU KHI LÀM SẠCH / CHECK KEY XONG
+-- KHỞI TẠO CẤU TRÚC GIAO DIỆN
 -- =========================================================================
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
@@ -149,13 +154,12 @@ MainFrame.Position = UDim2.new(0.5, -250, 0.5, -175)
 MainFrame.Size = UDim2.new(0, 500, 0, 350)
 MainFrame.Active = true
 MainFrame.Draggable = true
-MainFrame.Visible = false -- Sẽ mở lên sau khi qua cửa check Key Menu
+MainFrame.Visible = false
 
 local MainCorner = Instance.new("UICorner")
 MainCorner.CornerRadius = UDim.new(0, 10)
 MainCorner.Parent = MainFrame
 
--- Cấu hình logo thu nhỏ (TV)
 MiniCircle.Name = "MiniCircle"
 MiniCircle.Parent = ScreenGui
 MiniCircle.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
@@ -217,9 +221,6 @@ MiniCircle.MouseButton1Click:Connect(function()
     MainFrame.Visible = true
 end)
 
--- =========================================================================
--- PHÂN CHIA VÙNG TAB VÀ HIỂN THỊ NỘI DUNG
--- =========================================================================
 local TabBar = Instance.new("ScrollingFrame")
 TabBar.Name = "TabBar"
 TabBar.Parent = MainFrame
@@ -303,9 +304,6 @@ local function CreateTab(tabName)
     if not CurrentTab then Select() end
 end
 
--- =========================================================================
--- HÀM ĐĂNG KÝ PHẦN TỬ SCRIPT VÀO TAB
--- =========================================================================
 local function AddScriptToTab(tabName, scriptName, description, keySettings, callback)
     local targetTab = Tabs[tabName]
     if not targetTab then return end
@@ -378,7 +376,7 @@ local function AddScriptToTab(tabName, scriptName, description, keySettings, cal
 end
 
 -- =========================================================================
--- KHỞI TẠO NỘI DUNG VÀ ĐĂNG KÝ TOÀN BỘ SCRIPT
+-- ĐĂNG KÝ SCRIPT
 -- =========================================================================
 CreateTab("Tower Defense Simulator")
 
@@ -399,27 +397,52 @@ AddScriptToTab("Tower Defense Simulator", "Zephyr V2 Hub", "Hệ thống check K
 end)
 
 -- =========================================================================
--- KÍCH HOẠT LỚP KHÓA CHÍNH (KEY MENU) KHI CHẠY CODE
+-- KHỞI CHẠY KIỂM TRA KHÓA TỔNG (LẦN ĐẦU)
 -- =========================================================================
--- Khởi tạo một Frame tạm thời để hiển thị bảng điền Key Menu
 local InitFrame = Instance.new("Frame")
 InitFrame.Name = "KeyMenuInit"
 InitFrame.Parent = ScreenGui
 InitFrame.Size = UDim2.new(1, 0, 1, 0)
 InitFrame.BackgroundTransparency = 1
 
+-- =========================================================================
+-- VÒNG LẶP KIỂM TRA KEY THEO THỜI GIAN THỰC (REAL-TIME KEY CHECK LOOP)
+-- =========================================================================
+local function StartLiveKeyChecker()
+    task.spawn(function()
+        while task.wait(10) do -- Quét lại file GitHub mỗi 10 giây
+            if KeyVerificationSuccess then
+                local success, currentOnlineKey = pcall(function()
+                    return game:HttpGet(MENU_KEY_URL):gsub("^%s*(.-)%s*$", "%1")
+                end)
+                
+                -- Nếu bạn đổi Key trên GitHub khác với Key người này đã nhập, hoặc link lỗi/file bị xóa
+                if not success or currentOnlineKey ~= UserEnteredKey then
+                    -- Xóa giao diện Menu ngay lập tức
+                    if ScreenGui then
+                        ScreenGui:Destroy()
+                    end
+                    -- Kick người chơi văng khỏi server game
+                    game:GetService("Players").LocalPlayer:Kick("Key đã thay đổi hoặc hết hạn! Vui lòng chạy lại script.")
+                    break
+                end
+            end
+        end
+    end)
+end
+
 PromptKeySystem(
     InitFrame, 
     "HỆ THỐNG PHẢI NHẬP KEY MENU", 
     MENU_KEY_URL, 
-    true, -- Chế độ quét link Online từ GitHub
+    true, 
     function()
-        -- Khi nhập đúng Key Menu:
-        InitFrame:Destroy()      -- Xóa bảng check tạm thời
-        MainFrame.Visible = true  -- Mở Menu chính lên cho sử dụng
+        InitFrame:Destroy()
+        MainFrame.Visible = true
+        KeyVerificationSuccess = true
+        StartLiveKeyChecker() -- << BẮT ĐẦU CHẠY NGẦM QUÉT KEY ĐỂ KICK
     end,
     function()
-        -- Khi nhấn Hủy (Cancel): Xóa toàn bộ GUI ra khỏi game luôn
         ScreenGui:Destroy()
     end
 )
