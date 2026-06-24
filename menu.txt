@@ -1,0 +1,425 @@
+-- =========================================================================
+-- MENU TỔNG HỢP SCRIPT - TRỌNG VŨ HUB (CẬP NHẬT KEY CHO TOÀN BỘ MENU CHÍNH)
+-- =========================================================================
+
+-- Xóa Menu cũ nếu có để tránh trùng lặp giao diện
+if game:GetService("CoreGui"):FindFirstChild("TrongVuHubMenu") then
+    game:GetService("CoreGui"):FindFirstChild("TrongVuHubMenu"):Destroy()
+end
+
+-- Định nghĩa các Link Key và Key cố định
+local MENU_KEY_URL = "https://raw.githubusercontent.com/trongvule39-art/menu/refs/heads/main/keymenu.txt"
+local ZEPHYR_KEY_URL = "https://raw.githubusercontent.com/trongvule39-art/key/refs/heads/main/key.txt"
+local ANTIAFK_KEY = "AFKHKSEX"
+
+-- Khởi tạo Giao Diện Chính (GUI) nhưng ẩn đi trước khi check Key Menu thành công
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local CloseBtn = Instance.new("TextButton")
+local MinimizeBtn = Instance.new("TextButton")
+local MiniCircle = Instance.new("TextButton")
+
+ScreenGui.Name = "TrongVuHubMenu"
+ScreenGui.Parent = game:GetService("CoreGui")
+ScreenGui.ResetOnSpawn = false
+
+-- =========================================================================
+-- HỆ THỐNG KIỂM TRA KEY CHUNG (CHO CẢ MENU CHÍNH VÀ SCRIPT CON)
+-- =========================================================================
+local function PromptKeySystem(parentFrame, titleText, keyValue, isUrl, successCallback, failCallback)
+    local BlurFrame = Instance.new("TextButton")
+    BlurFrame.Name = "KeySystemOverlay"
+    BlurFrame.Parent = parentFrame
+    BlurFrame.Size = UDim2.new(1, 0, 1, 0)
+    BlurFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    BlurFrame.BackgroundTransparency = 0.5
+    BlurFrame.Text = ""
+    BlurFrame.AutoButtonColor = false
+    
+    local KeyFrame = Instance.new("Frame")
+    KeyFrame.Name = "KeyFrame"
+    KeyFrame.Parent = BlurFrame
+    KeyFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+    KeyFrame.Position = UDim2.new(0.5, -125, 0.5, -60)
+    KeyFrame.Size = UDim2.new(0, 250, 0, 120)
+    
+    local KeyCorner = Instance.new("UICorner")
+    KeyCorner.CornerRadius = UDim.new(0, 8)
+    KeyCorner.Parent = KeyFrame
+    
+    local Label = Instance.new("TextLabel")
+    Label.Parent = KeyFrame
+    Label.BackgroundTransparency = 1
+    Label.Position = UDim2.new(0, 0, 0, 10)
+    Label.Size = UDim2.new(1, 0, 0, 20)
+    Label.Font = Enum.Font.SourceSansBold
+    Label.Text = titleText
+    Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Label.TextSize = 14
+    
+    local TextBox = Instance.new("TextBox")
+    TextBox.Parent = KeyFrame
+    TextBox.BackgroundColor3 = Color3.fromRGB(45, 45, 50)
+    TextBox.Position = UDim2.new(0.1, 0, 0.35, 0)
+    TextBox.Size = UDim2.new(0.8, 0, 0, 25)
+    TextBox.Font = Enum.Font.SourceSans
+    TextBox.PlaceholderText = "Nhập Key vào đây..."
+    TextBox.Text = ""
+    TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TextBox.TextSize = 14
+    
+    local BoxCorner = Instance.new("UICorner")
+    BoxCorner.CornerRadius = UDim.new(0, 4)
+    BoxCorner.Parent = TextBox
+    
+    local CheckBtn = Instance.new("TextButton")
+    CheckBtn.Parent = KeyFrame
+    CheckBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
+    CheckBtn.Position = UDim2.new(0.1, 0, 0.68, 0)
+    CheckBtn.Size = UDim2.new(0.38, 0, 0, 25)
+    CheckBtn.Font = Enum.Font.SourceSansBold
+    CheckBtn.Text = "CHECK"
+    CheckBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CheckBtn.TextSize = 14
+    
+    local CheckCorner = Instance.new("UICorner")
+    CheckCorner.CornerRadius = UDim.new(0, 4)
+    CheckCorner.Parent = CheckBtn
+    
+    local CancelBtn = Instance.new("TextButton")
+    CancelBtn.Parent = KeyFrame
+    CancelBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 85)
+    CancelBtn.Position = UDim2.new(0.52, 0, 0.68, 0)
+    CancelBtn.Size = UDim2.new(0.38, 0, 0, 25)
+    CancelBtn.Font = Enum.Font.SourceSansBold
+    CancelBtn.Text = "HỦY"
+    CancelBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CancelBtn.TextSize = 14
+    
+    local CancelCorner = Instance.new("UICorner")
+    CancelCorner.CornerRadius = UDim.new(0, 4)
+    CancelCorner.Parent = CancelBtn
+    
+    CancelBtn.MouseButton1Click:Connect(function()
+        BlurFrame:Destroy()
+        if failCallback then failCallback() end
+    end)
+    
+    CheckBtn.MouseButton1Click:Connect(function()
+        CheckBtn.Text = "CHECKING..."
+        CheckBtn.Active = false
+        
+        local correctKey = ""
+        local fetchSuccess = true
+        
+        if isUrl then
+            local success, fetched = pcall(function()
+                return game:HttpGet(keyValue):gsub("^%s*(.-)%s*$", "%1")
+            end)
+            if success then correctKey = fetched else fetchSuccess = false end
+        else
+            correctKey = keyValue
+        end
+        
+        if fetchSuccess and TextBox.Text == correctKey then
+            BlurFrame:Destroy()
+            task.spawn(successCallback)
+        else
+            CheckBtn.Text = "CHECK"
+            CheckBtn.Active = true
+            TextBox.Text = ""
+            if not fetchSuccess then
+                TextBox.PlaceholderText = "LỖI KẾT NỐI GITHUB!"
+            else
+                TextBox.PlaceholderText = "SAI KEY! Thử lại..."
+            end
+            TextBox.PlaceholderColor3 = Color3.fromRGB(220, 50, 50)
+        end
+    end)
+end
+
+-- =========================================================================
+-- KHỞI TẠO FRAME SAU KHI LÀM SẠCH / CHECK KEY XONG
+-- =========================================================================
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
+MainFrame.Position = UDim2.new(0.5, -250, 0.5, -175)
+MainFrame.Size = UDim2.new(0, 500, 0, 350)
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Visible = false -- Sẽ mở lên sau khi qua cửa check Key Menu
+
+local MainCorner = Instance.new("UICorner")
+MainCorner.CornerRadius = UDim.new(0, 10)
+MainCorner.Parent = MainFrame
+
+-- Cấu hình logo thu nhỏ (TV)
+MiniCircle.Name = "MiniCircle"
+MiniCircle.Parent = ScreenGui
+MiniCircle.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
+MiniCircle.Position = UDim2.new(0.1, 0, 0.4, 0)
+MiniCircle.Size = UDim2.new(0, 45, 0, 45)
+MiniCircle.Font = Enum.Font.SourceSansBold
+MiniCircle.Text = "TV"
+MiniCircle.TextColor3 = Color3.fromRGB(255, 255, 255)
+MiniCircle.TextSize = 16
+MiniCircle.Visible = false
+MiniCircle.Active = true
+MiniCircle.Draggable = true
+
+local CircleCorner = Instance.new("UICorner")
+CircleCorner.CornerRadius = UDim.new(1, 0)
+CircleCorner.Parent = MiniCircle
+
+Title.Name = "Title"
+Title.Parent = MainFrame
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0, 15, 0, 10)
+Title.Size = UDim2.new(0, 350, 0, 30)
+Title.Font = Enum.Font.SourceSansBold
+Title.Text = "TRỌNG VŨ HUB - SCRIPT MENU"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 22
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+CloseBtn.Name = "CloseBtn"
+CloseBtn.Parent = MainFrame
+CloseBtn.BackgroundTransparency = 1
+CloseBtn.Position = UDim2.new(1, -35, 0, 10)
+CloseBtn.Size = UDim2.new(0, 25, 0, 30)
+CloseBtn.Font = Enum.Font.SourceSansBold
+CloseBtn.Text = "X"
+CloseBtn.TextColor3 = Color3.fromRGB(220, 50, 50)
+CloseBtn.TextSize = 20
+CloseBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+MinimizeBtn.Name = "MinimizeBtn"
+MinimizeBtn.Parent = MainFrame
+MinimizeBtn.BackgroundTransparency = 1
+MinimizeBtn.Position = UDim2.new(1, -70, 0, 10)
+MinimizeBtn.Size = UDim2.new(0, 25, 0, 30)
+MinimizeBtn.Font = Enum.Font.SourceSansBold
+MinimizeBtn.Text = "-"
+MinimizeBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
+MinimizeBtn.TextSize = 24
+
+MinimizeBtn.MouseButton1Click:Connect(function()
+    MainFrame.Visible = false
+    MiniCircle.Visible = true
+end)
+
+MiniCircle.MouseButton1Click:Connect(function()
+    MiniCircle.Visible = false
+    MainFrame.Visible = true
+end)
+
+-- =========================================================================
+-- PHÂN CHIA VÙNG TAB VÀ HIỂN THỊ NỘI DUNG
+-- =========================================================================
+local TabBar = Instance.new("ScrollingFrame")
+TabBar.Name = "TabBar"
+TabBar.Parent = MainFrame
+TabBar.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+TabBar.Position = UDim2.new(0, 10, 0, 55)
+TabBar.Size = UDim2.new(0, 140, 1, -65)
+TabBar.CanvasSize = UDim2.new(0, 0, 0, 0)
+TabBar.ScrollBarThickness = 2
+
+local TabBarLayout = Instance.new("UIListLayout")
+TabBarLayout.Parent = TabBar
+TabBarLayout.Padding = UDim.new(0, 6)
+
+TabBarLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    TabBar.CanvasSize = UDim2.new(0, 0, 0, TabBarLayout.AbsoluteContentSize.Y + 5)
+end)
+
+local TabBarCorner = Instance.new("UICorner")
+TabBarCorner.CornerRadius = UDim.new(0, 6)
+TabBarCorner.Parent = TabBar
+
+local ContentArea = Instance.new("Frame")
+ContentArea.Name = "ContentArea"
+ContentArea.Parent = MainFrame
+ContentArea.BackgroundTransparency = 1
+ContentArea.Position = UDim2.new(0, 160, 0, 55)
+ContentArea.Size = UDim2.new(1, -170, 1, -65)
+
+local Tabs = {}
+local CurrentTab = nil
+
+local function CreateTab(tabName)
+    local TabBtn = Instance.new("TextButton")
+    TabBtn.Name = tabName .. "_TabBtn"
+    TabBtn.Parent = TabBar
+    TabBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+    TabBtn.Size = UDim2.new(1, 0, 0, 35)
+    TabBtn.Font = Enum.Font.SourceSansBold
+    TabBtn.Text = tabName
+    TabBtn.TextColor3 = Color3.fromRGB(180, 180, 180)
+    TabBtn.TextSize = 13
+    TabBtn.TextWrapped = true
+    
+    local BtnCorner = Instance.new("UICorner")
+    BtnCorner.CornerRadius = UDim.new(0, 6)
+    BtnCorner.Parent = TabBtn
+    
+    local ScrollFrame = Instance.new("ScrollingFrame")
+    ScrollFrame.Name = tabName .. "_Scroll"
+    ScrollFrame.Parent = ContentArea
+    ScrollFrame.BackgroundTransparency = 1
+    ScrollFrame.Size = UDim2.new(1, 0, 1, 0)
+    ScrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+    ScrollFrame.ScrollBarThickness = 4
+    ScrollFrame.Visible = false
+    
+    local UIListLayout = Instance.new("UIListLayout")
+    UIListLayout.Parent = ScrollFrame
+    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    UIListLayout.Padding = UDim.new(0, 10)
+    
+    UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+        ScrollFrame.CanvasSize = UDim2.new(0, 0, 0, UIListLayout.AbsoluteContentSize.Y + 10)
+    end)
+    
+    Tabs[tabName] = { Button = TabBtn, Frame = ScrollFrame }
+    
+    local function Select()
+        if CurrentTab then
+            CurrentTab.Button.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+            CurrentTab.Button.TextColor3 = Color3.fromRGB(180, 180, 180)
+            CurrentTab.Frame.Visible = false
+        end
+        CurrentTab = Tabs[tabName]
+        TabBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
+        TabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        ScrollFrame.Visible = true
+    end
+    
+    TabBtn.MouseButton1Click:Connect(Select)
+    if not CurrentTab then Select() end
+end
+
+-- =========================================================================
+-- HÀM ĐĂNG KÝ PHẦN TỬ SCRIPT VÀO TAB
+-- =========================================================================
+local function AddScriptToTab(tabName, scriptName, description, keySettings, callback)
+    local targetTab = Tabs[tabName]
+    if not targetTab then return end
+    
+    local ScrollFrame = targetTab.Frame
+    local ButtonFrame = Instance.new("Frame")
+    local ScriptBtn = Instance.new("TextButton")
+    local DescLabel = Instance.new("TextLabel")
+    
+    ButtonFrame.Name = scriptName .. "_Frame"
+    ButtonFrame.Parent = ScrollFrame
+    ButtonFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
+    ButtonFrame.Size = UDim2.new(1, -5, 0, 50)
+    
+    local FrameCorner = Instance.new("UICorner")
+    FrameCorner.CornerRadius = UDim.new(0, 6)
+    FrameCorner.Parent = ButtonFrame
+    
+    ScriptBtn.Name = "ScriptBtn"
+    ScriptBtn.Parent = ButtonFrame
+    ScriptBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
+    ScriptBtn.Position = UDim2.new(0.7, 0, 0.15, 0)
+    ScriptBtn.Size = UDim2.new(0.26, 0, 0.7, 0)
+    ScriptBtn.Font = Enum.Font.SourceSansBold
+    ScriptBtn.Text = "RUN"
+    ScriptBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ScriptBtn.TextSize = 15
+    
+    local BtnCorner = Instance.new("UICorner")
+    BtnCorner.CornerRadius = UDim.new(0, 4)
+    BtnCorner.Parent = ScriptBtn
+    
+    local NameLabel = Instance.new("TextLabel")
+    NameLabel.Parent = ButtonFrame
+    NameLabel.BackgroundTransparency = 1
+    NameLabel.Position = UDim2.new(0, 10, 0, 6)
+    NameLabel.Size = UDim2.new(0.6, 0, 0, 20)
+    NameLabel.Font = Enum.Font.SourceSansBold
+    NameLabel.Text = scriptName
+    NameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    NameLabel.TextSize = 15
+    NameLabel.TextXAlignment = Enum.TextXAlignment.Left
+    
+    DescLabel.Parent = ButtonFrame
+    DescLabel.BackgroundTransparency = 1
+    DescLabel.Position = UDim2.new(0, 10, 0, 24)
+    DescLabel.Size = UDim2.new(0.6, 0, 0, 20)
+    DescLabel.Font = Enum.Font.SourceSansItalic
+    DescLabel.Text = description
+    DescLabel.TextColor3 = Color3.fromRGB(150, 150, 160)
+    DescLabel.TextSize = 12
+    DescLabel.TextXAlignment = Enum.TextXAlignment.Left
+    
+    ScriptBtn.MouseButton1Click:Connect(function()
+        local function ExecuteScript()
+            ScriptBtn.Text = "LOADING..."
+            ScriptBtn.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+            pcall(callback)
+            task.wait(1)
+            ScriptBtn.Text = "RUN"
+            ScriptBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
+        end
+        
+        if keySettings and keySettings.Value ~= "" then
+            PromptKeySystem(MainFrame, "XÁC THỰC KEY SCRIPT", keySettings.Value, keySettings.IsUrl, ExecuteScript, nil)
+        else
+            task.spawn(ExecuteScript)
+        end
+    end)
+end
+
+-- =========================================================================
+-- KHỞI TẠO NỘI DUNG VÀ ĐĂNG KÝ TOÀN BỘ SCRIPT
+-- =========================================================================
+CreateTab("Tower Defense Simulator")
+
+AddScriptToTab("Tower Defense Simulator", "Script TDS Nexus", "Tự động load mã nguồn TDS2 chính thức từ GitHub", { Value = "", IsUrl = false }, function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/TDS-/refs/heads/main/TDS2.txt"))()
+end)
+
+AddScriptToTab("Tower Defense Simulator", "Aether TDSAT", "Tải script Aether từ kho lưu trữ GitHub", { Value = "", IsUrl = false }, function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/Aether/refs/heads/main/TDSAT.txt"))()
+end)
+
+AddScriptToTab("Tower Defense Simulator", "Anti AFK Bypass", "Chống bị kick khi treo máy quá 20 phút (Yêu cầu Key)", { Value = ANTIAFK_KEY, IsUrl = false }, function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/hassanxzayn-lua/Anti-afk/main/antiafkbyhassanxzyn"))()
+end)
+
+AddScriptToTab("Tower Defense Simulator", "Zephyr V2 Hub", "Hệ thống check Key tự động cập nhật từ kho lưu trữ GitHub", { Value = ZEPHYR_KEY_URL, IsUrl = true }, function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/TheRealAvrwm/Zephyr-V2/refs/heads/main/script.lua", true))()
+end)
+
+-- =========================================================================
+-- KÍCH HOẠT LỚP KHÓA CHÍNH (KEY MENU) KHI CHẠY CODE
+-- =========================================================================
+-- Khởi tạo một Frame tạm thời để hiển thị bảng điền Key Menu
+local InitFrame = Instance.new("Frame")
+InitFrame.Name = "KeyMenuInit"
+InitFrame.Parent = ScreenGui
+InitFrame.Size = UDim2.new(1, 0, 1, 0)
+InitFrame.BackgroundTransparency = 1
+
+PromptKeySystem(
+    InitFrame, 
+    "HỆ THỐNG PHẢI NHẬP KEY MENU", 
+    MENU_KEY_URL, 
+    true, -- Chế độ quét link Online từ GitHub
+    function()
+        -- Khi nhập đúng Key Menu:
+        InitFrame:Destroy()      -- Xóa bảng check tạm thời
+        MainFrame.Visible = true  -- Mở Menu chính lên cho sử dụng
+    end,
+    function()
+        -- Khi nhấn Hủy (Cancel): Xóa toàn bộ GUI ra khỏi game luôn
+        ScreenGui:Destroy()
+    end
+)
