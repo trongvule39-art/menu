@@ -1,5 +1,5 @@
 -- =========================================================================
--- MENU TỔNG HỢP SCRIPT - TRỌNG VŨ HUB (GRADIENT BLUE STYLE - FIXED KEY KICK)
+-- MENU TỔNG HỢP SCRIPT - TRỌNG VŨ HUB (GRADIENT BLUE STYLE - BACKGROUND CHECK)
 -- =========================================================================
 
 if game:GetService("CoreGui"):FindFirstChild("TrongVuHubMenu") then
@@ -12,7 +12,7 @@ local ZEPHYR_KEY_URL = "https://raw.githubusercontent.com/TheRealAvrwm/Zephyr-V2
 local OTHER_TAB_KEY_URL = "https://raw.githubusercontent.com/trongvule39-art/key/refs/heads/main/key.txt"
 local ANTIAFK_KEY = "AFKHKSEX"
 
-local UserEnteredKey = "" -- Sẽ tự động lưu key bạn nhập vào đây để đối chiếu
+local UserEnteredKey = "" 
 local KeyVerificationSuccess = false
 
 local ScreenGui = Instance.new("ScreenGui")
@@ -27,7 +27,7 @@ ScreenGui.Parent = game:GetService("CoreGui")
 ScreenGui.ResetOnSpawn = false
 
 -- =========================================================================
--- BẢNG MÀU GRADIENT XANH DƯƠNG (TỪ SIÊU NHẠT ĐẾN SIÊU ĐẬM)
+-- BẢNG MÀU GRADIENT XANH DƯƠNG
 -- =========================================================================
 local BLUE_SUPER_LIGHT  = Color3.fromRGB(180, 225, 255)
 local BLUE_LIGHT        = Color3.fromRGB(0, 160, 255)
@@ -35,7 +35,6 @@ local BLUE_MAIN         = Color3.fromRGB(0, 100, 200)
 local BLUE_DARK         = Color3.fromRGB(15, 25, 45)
 local BLUE_SUPER_DARK  = Color3.fromRGB(8, 12, 25)
 
--- Cấu hình nút thu nhỏ MiniCircle
 MiniCircle.Name = "MiniCircle"
 MiniCircle.Parent = ScreenGui
 MiniCircle.BackgroundColor3 = BLUE_MAIN
@@ -60,32 +59,27 @@ CircleStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 CircleStroke.Parent = MiniCircle
 
 -- =========================================================================
--- HÀM ANIMATION ĐÓNG / MỞ MENU TẠM THỜI
+-- ANIMATION ĐÓNG / MỞ MENU
 -- =========================================================================
 local isTweening = false
 
 local function MinimizeMenu()
     if isTweening then return end
     isTweening = true
-    
     local currentPos = MainFrame.Position
-    
     local mainTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.In)
     local mainTween = TweenService:Create(MainFrame, mainTweenInfo, {
         Size = UDim2.new(0, 0, 0, 0),
         Position = currentPos + UDim2.new(0, 250, 0, 175)
     })
-    
     mainTween:Play()
     mainTween.Completed:Connect(function()
         MainFrame.Visible = false
         MainFrame.Size = UDim2.new(0, 500, 0, 350)
         MainFrame.Position = currentPos
-        
         MiniCircle.Visible = true
         MiniCircle.Size = UDim2.new(0, 0, 0, 0)
         MiniCircle.TextSize = 0
-        
         local circleTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
         local circleTween = TweenService:Create(MiniCircle, circleTweenInfo, {
             Size = UDim2.new(0, 45, 0, 45),
@@ -99,22 +93,18 @@ end
 local function MaximizeMenu()
     if isTweening then return end
     isTweening = true
-    
     local circleTweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In)
     circleTween = TweenService:Create(MiniCircle, circleTweenInfo, {
         Size = UDim2.new(0, 0, 0, 0),
         TextSize = 0
     })
-    
     circleTween:Play()
     circleTween.Completed:Connect(function()
         MiniCircle.Visible = false
-        
         local targetPos = MainFrame.Position
         MainFrame.Position = targetPos + UDim2.new(0, 250, 0, 175)
         MainFrame.Size = UDim2.new(0, 0, 0, 0)
         MainFrame.Visible = true
-        
         local mainTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
         local mainTween = TweenService:Create(MainFrame, mainTweenInfo, {
             Size = UDim2.new(0, 500, 0, 350),
@@ -239,7 +229,6 @@ local function PromptKeySystem(parentFrame, titleText, keyValue, isUrl, successC
         end
         
         if fetchSuccess and TextBox.Text == correctKey then
-            -- FIX LỖI TẠI ĐÂY: Lưu lại chính xác key người dùng vừa nhập vào biến hệ thống
             if titleText == "HE THONG PHAI NHAP KEY MENU" then
                 UserEnteredKey = TextBox.Text
             end
@@ -302,8 +291,11 @@ CloseBtn.Font = Enum.Font.SourceSansBold
 CloseBtn.Text = "X"
 CloseBtn.TextColor3 = Color3.fromRGB(255, 100, 100)
 CloseBtn.TextSize = 20
+
+-- FIX LỖI TẠI ĐÂY: Thay vì Xóa UI (Destroy), nút X sẽ chỉ ẩn MainFrame để luồng Check Key ngầm luôn chạy ổn định
 CloseBtn.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
+    MainFrame.Visible = false
+    MiniCircle.Visible = false
 end)
 
 MinimizeBtn.Name = "MinimizeBtn"
@@ -496,68 +488,54 @@ local function AddScriptToTab(tabName, scriptName, description, keySettings, cal
 end
 
 -- =========================================================================
--- ĐĂNG KÝ DANH SÁCH TABS & SCRIPTS 
+-- DANH SÁCH TABS & SCRIPTS 
 -- =========================================================================
 
--- 1. TAB TOWER DEFENSE SIMULATOR
+-- Tab 1
 CreateTab("Tower Defense Simulator")
-
 AddScriptToTab("Tower Defense Simulator", "Script TDS Nexus", "Tu dong load ma nguon TDS2 chinh thuc tu GitHub", { Value = "", IsUrl = false }, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/TDS-/refs/heads/main/TDS2.txt"))()
 end)
-
 AddScriptToTab("Tower Defense Simulator", "Aether TDSAT", "Tai script Aether tu kho luu tru GitHub", { Value = "", IsUrl = false }, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/Aether/refs/heads/main/TDSAT.txt"))()
 end)
-
 AddScriptToTab("Tower Defense Simulator", "Anti AFK Bypass", "Chong bi kick khi treo may qua 20 phut (Yeu cau Key)", { Value = ANTIAFK_KEY, IsUrl = false }, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/hassanxzayn-lua/Anti-afk/main/antiafkbyhassanxzyn"))()
 end)
-
 AddScriptToTab("Tower Defense Simulator", "Zephyr V2 Hub", "He thong check Key tu dong cap nhat tu kho luu tru GitHub", { Value = ZEPHYR_KEY_URL, IsUrl = true }, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/TheRealAvrwm/Zephyr-V2/refs/heads/main/script.lua", true))()
 end)
 
-
--- 2. TAB OTHER (YÊU CẦU CHECK KEY TỪ LINK MỚI)
+-- Tab 2
 CreateTab("Other")
-
 local OtherTabKeySettings = { Value = OTHER_TAB_KEY_URL, IsUrl = true }
-
 AddScriptToTab("Other", "Troll Sex", "FE Trolling Player R6 va R15 tu GitHub", OtherTabKeySettings, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/3LD4D0/FE-TROLLING-PLAYER-R6-R15/6eff8792afed57458d5114478b453a6f6bce5799/Fe%20trolling%20Player%20R6%20AND%20R15"))()
 end)
-
 AddScriptToTab("Other", "Tinh Nang V4", "Tai ma nguon TinhNangTVH tu TrongVuHub4.0", OtherTabKeySettings, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/TrongVuHub4.0/refs/heads/main/TinhNangTVH.txt"))()
 end)
-
 AddScriptToTab("Other", "C00lgui", "Kich hoat giao dien TrongVuGui tu GitHub", OtherTabKeySettings, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/TrongVuGui/refs/heads/main/TrongGui.txt"))()
 end)
-
 AddScriptToTab("Other", "Dao", "Kich hoat script Grab V4", OtherTabKeySettings, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Icalock/Server/refs/heads/main/Grab%20V4.txt", true))()
 end)
-
 AddScriptToTab("Other", "Aimbot", "He thong ho tro ngam tieu cu tu kho luu tru", OtherTabKeySettings, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/AimbotAnti-Ban/refs/heads/main/aimbot.txt"))()
 end)
-
 AddScriptToTab("Other", "Safemode", "Chay chuong trinh o che do an toan", OtherTabKeySettings, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/safemode/refs/heads/main/safe.txt"))()
 end)
-
 AddScriptToTab("Other", "Jump o map cam", "Bo qua gioi han nhay tai cac khu vuc bi cam", OtherTabKeySettings, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/jumpcam/refs/heads/main/jump.txt"))()
 end)
-
 AddScriptToTab("Other", "Sethome", "Kich hoat chuc nang luu va quay tro ve diem sethome", OtherTabKeySettings, function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/sethome/refs/heads/main/set.txt"))()
 end)
 
 -- =========================================================================
--- VÒNG LẶP LIVE KEY CHECKER LOOP (FIXED)
+-- VÒNG LẶP LIVE KEY CHECKER LOOP (HOẠT ĐỘNG ĐỘC LẬP NGẦM)
 -- =========================================================================
 local function StartLiveKeyChecker()
     task.spawn(function()
@@ -592,7 +570,6 @@ PromptKeySystem(
     true, 
     function()
         InitFrame:Destroy()
-        
         MainFrame.Position = UDim2.new(0.5, -250, 0.4, -175)
         MainFrame.Size = UDim2.new(0, 500, 0, 350)
         MainFrame.Visible = true
