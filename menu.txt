@@ -4,7 +4,7 @@
 
 -- STREAMING_CHUNK: Khởi tạo dịch vụ và dọn dẹp Menu cũ...
 if game:GetService("CoreGui"):FindFirstChild("TrongVuHubMenu") then
-    game:GetService("CoreGui"):FindFirstChild("TrongVuHubMenu"):Destroy()
+game:GetService("CoreGui"):FindFirstChild("TrongVuHubMenu"):Destroy()
 end
 
 local TweenService = game:GetService("TweenService")
@@ -63,14 +63,14 @@ CircleStroke.Parent = MiniCircle
 -- HÀM LẤY KEY ONLINE (ANTI-CACHE SERVER GITHUB & EXECUTOR)
 -- =========================================================================
 local function GetLatestOnlineKey(url)
-    local antiCacheUrl = url .. "?t=" .. tostring(math.random(100000, 999999))
-    local success, result = pcall(function()
-        return game:HttpGet(antiCacheUrl, true)
-    end)
-    if success and result then
-        return result:gsub("^%s*(.-)%s*$", "%1")
-    end
-    return nil
+local antiCacheUrl = url .. "?t=" .. tostring(math.random(100000, 999999))
+local success, result = pcall(function()
+return game:HttpGet(antiCacheUrl, true)
+end)
+if success and result then
+return result:gsub("^%s*(.-)%s*$", "%1")
+end
+return nil
 end
 
 -- =========================================================================
@@ -79,55 +79,55 @@ end
 local isTweening = false
 
 local function MinimizeMenu()
-    if isTweening then return end
-    isTweening = true
-    local currentPos = MainFrame.Position
-    local mainTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.In)
-    local mainTween = TweenService:Create(MainFrame, mainTweenInfo, {
-        Size = UDim2.new(0, 0, 0, 0),
-        Position = currentPos + UDim2.new(0, 250, 0, 175)
-    })
-    mainTween:Play()
-    mainTween.Completed:Connect(function()
-        MainFrame.Visible = false
-        MainFrame.Size = UDim2.new(0, 500, 0, 350)
-        MainFrame.Position = currentPos
-        MiniCircle.Visible = true
-        MiniCircle.Size = UDim2.new(0, 0, 0, 0)
-        MiniCircle.TextSize = 0
-        local circleTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
-        local circleTween = TweenService:Create(MiniCircle, circleTweenInfo, {
-            Size = UDim2.new(0, 45, 0, 45),
-            TextSize = 16
-        })
-        circleTween:Play()
-        circleTween.Completed:Connect(function() isTweening = false end)
-    end)
+if isTweening then return end
+isTweening = true
+local currentPos = MainFrame.Position
+local mainTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.In)
+local mainTween = TweenService:Create(MainFrame, mainTweenInfo, {
+Size = UDim2.new(0, 0, 0, 0),
+Position = currentPos + UDim2.new(0, 250, 0, 175)
+})
+mainTween:Play()
+mainTween.Completed:Connect(function()
+MainFrame.Visible = false
+MainFrame.Size = UDim2.new(0, 500, 0, 350)
+MainFrame.Position = currentPos
+MiniCircle.Visible = true
+MiniCircle.Size = UDim2.new(0, 0, 0, 0)
+MiniCircle.TextSize = 0
+local circleTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+local circleTween = TweenService:Create(MiniCircle, circleTweenInfo, {
+Size = UDim2.new(0, 45, 0, 45),
+TextSize = 16
+})
+circleTween:Play()
+circleTween.Completed:Connect(function() isTweening = false end)
+end)
 end
 
 local function MaximizeMenu()
-    if isTweening then return end
-    isTweening = true
-    local circleTweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In)
-    local circleTween = TweenService:Create(MiniCircle, circleTweenInfo, {
-        Size = UDim2.new(0, 0, 0, 0),
-        TextSize = 0
-    })
-    circleTween:Play()
-    circleTween.Completed:Connect(function()
-        MiniCircle.Visible = false
-        local targetPos = MainFrame.Position
-        MainFrame.Position = targetPos + UDim2.new(0, 250, 0, 175)
-        MainFrame.Size = UDim2.new(0, 0, 0, 0)
-        MainFrame.Visible = true
-        local mainTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
-        local mainTween = TweenService:Create(MainFrame, mainTweenInfo, {
-            Size = UDim2.new(0, 500, 0, 350),
-            Position = targetPos
-        })
-        mainTween:Play()
-        mainTween.Completed:Connect(function() isTweening = false end)
-    end)
+if isTweening then return end
+isTweening = true
+local circleTweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In)
+local circleTween = TweenService:Create(MiniCircle, circleTweenInfo, {
+Size = UDim2.new(0, 0, 0, 0),
+TextSize = 0
+})
+circleTween:Play()
+circleTween.Completed:Connect(function()
+MiniCircle.Visible = false
+local targetPos = MainFrame.Position
+MainFrame.Position = targetPos + UDim2.new(0, 250, 0, 175)
+MainFrame.Size = UDim2.new(0, 0, 0, 0)
+MainFrame.Visible = true
+local mainTweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+local mainTween = TweenService:Create(MainFrame, mainTweenInfo, {
+Size = UDim2.new(0, 500, 0, 350),
+Position = targetPos
+})
+mainTween:Play()
+mainTween.Completed:Connect(function() isTweening = false end)
+end)
 end
 
 MinimizeBtn.MouseButton1Click:Connect(MinimizeMenu)
@@ -137,161 +137,163 @@ MiniCircle.MouseButton1Click:Connect(MaximizeMenu)
 -- HỆ THỐNG KIỂM TRA KEY CHUNG
 -- =========================================================================
 local function PromptKeySystem(parentFrame, titleText, keyValue, isUrl, successCallback, failCallback)
-    local BlurFrame = Instance.new("TextButton")
-    BlurFrame.Name = "KeySystemOverlay"
-    BlurFrame.Parent = parentFrame
-    BlurFrame.Size = UDim2.new(1, 0, 1, 0)
-    BlurFrame.BackgroundColor3 = BLUE_SUPER_DARK
-    BlurFrame.BackgroundTransparency = 1
-    BlurFrame.Text = ""
-    BlurFrame.AutoButtonColor = false
+local BlurFrame = Instance.new("TextButton")
+BlurFrame.Name = "KeySystemOverlay"
+BlurFrame.Parent = parentFrame
+BlurFrame.Size = UDim2.new(1, 0, 1, 0)
+BlurFrame.BackgroundColor3 = BLUE_SUPER_DARK
+BlurFrame.BackgroundTransparency = 1
+BlurFrame.Text = ""
+BlurFrame.AutoButtonColor = false
 
-    TweenService:Create(BlurFrame, TweenInfo.new(0.3), {BackgroundTransparency = 0.6}):Play()
+TweenService:Create(BlurFrame, TweenInfo.new(0.3), {BackgroundTransparency = 0.6}):Play()
 
-    local KeyFrame = Instance.new("Frame")
-    KeyFrame.Name = "KeyFrame"
-    KeyFrame.Parent = BlurFrame
-    KeyFrame.BackgroundColor3 = BLUE_DARK
-    KeyFrame.BackgroundTransparency = 0.1
-    KeyFrame.Size = UDim2.new(0, 250, 0, 120)
+local KeyFrame = Instance.new("Frame")
+KeyFrame.Name = "KeyFrame"
+KeyFrame.Parent = BlurFrame
+KeyFrame.BackgroundColor3 = BLUE_DARK
+KeyFrame.BackgroundTransparency = 0.1
+KeyFrame.Size = UDim2.new(0, 250, 0, 120)
 
-    local KeyCorner = Instance.new("UICorner")
-    KeyCorner.CornerRadius = UDim.new(0, 8)
-    KeyCorner.Parent = KeyFrame
+local KeyCorner = Instance.new("UICorner")
+KeyCorner.CornerRadius = UDim.new(0, 8)
+KeyCorner.Parent = KeyFrame
 
-    local KeyStroke = Instance.new("UIStroke")
-    KeyStroke.Thickness = 1.5
-    KeyStroke.Color = BLUE_MAIN
-    KeyStroke.Parent = KeyFrame
+local KeyStroke = Instance.new("UIStroke")
+KeyStroke.Thickness = 1.5
+KeyStroke.Color = BLUE_MAIN
+KeyStroke.Parent = KeyFrame
 
-    KeyFrame.Position = UDim2.new(0.5, -125, 0.4, -60)
-    TweenService:Create(KeyFrame, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-        Position = UDim2.new(0.5, -125, 0.5, -60)
-    }):Play()
+KeyFrame.Position = UDim2.new(0.5, -125, 0.4, -60)
+TweenService:Create(KeyFrame, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+    Position = UDim2.new(0.5, -125, 0.5, -60)
+}):Play()
 
-    local Label = Instance.new("TextLabel")
-    Label.Parent = KeyFrame
-    Label.BackgroundTransparency = 1
-    Label.Position = UDim2.new(0, 0, 0, 10)
-    Label.Size = UDim2.new(1, 0, 0, 20)
-    Label.Font = Enum.Font.SourceSansBold
-    Label.Text = titleText
-    Label.TextColor3 = BLUE_SUPER_LIGHT
-    Label.TextSize = 14
+local Label = Instance.new("TextLabel")
+Label.Parent = KeyFrame
+Label.BackgroundTransparency = 1
+Label.Position = UDim2.new(0, 0, 0, 10)
+Label.Size = UDim2.new(1, 0, 0, 20)
+Label.Font = Enum.Font.SourceSansBold
+Label.Text = titleText
+Label.TextColor3 = BLUE_SUPER_LIGHT
+Label.TextSize = 14
 
-    local TextBox = Instance.new("TextBox")
-    TextBox.Parent = KeyFrame
-    TextBox.BackgroundColor3 = BLUE_SUPER_DARK
-    TextBox.Position = UDim2.new(0.1, 0, 0.35, 0)
-    TextBox.Size = UDim2.new(0.8, 0, 0, 25)
-    TextBox.Font = Enum.Font.SourceSans
-    TextBox.PlaceholderText = "Nhap Key vao day..."
-    TextBox.Text = ""
-    TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-    TextBox.TextSize = 14
+local TextBox = Instance.new("TextBox")
+TextBox.Parent = KeyFrame
+TextBox.BackgroundColor3 = BLUE_SUPER_DARK
+TextBox.Position = UDim2.new(0.1, 0, 0.35, 0)
+TextBox.Size = UDim2.new(0.8, 0, 0, 25)
+TextBox.Font = Enum.Font.SourceSans
+TextBox.PlaceholderText = "Nhap Key vao day..."
+TextBox.Text = ""
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextSize = 14
 
-    local BoxCorner = Instance.new("UICorner")
-    BoxCorner.CornerRadius = UDim.new(0, 4)
-    BoxCorner.Parent = TextBox
+local BoxCorner = Instance.new("UICorner")
+BoxCorner.CornerRadius = UDim.new(0, 4)
+BoxCorner.Parent = TextBox
 
-    local CheckBtn = Instance.new("TextButton")
-    CheckBtn.Parent = KeyFrame
-    CheckBtn.BackgroundColor3 = BLUE_MAIN
-    CheckBtn.Position = UDim2.new(0.1, 0, 0.68, 0)
-    CheckBtn.Size = UDim2.new(0.38, 0, 0, 25)
-    CheckBtn.Font = Enum.Font.SourceSansBold
-    CheckBtn.Text = "CHECK"
-    CheckBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    CheckBtn.TextSize = 14
+local CheckBtn = Instance.new("TextButton")
+CheckBtn.Parent = KeyFrame
+CheckBtn.BackgroundColor3 = BLUE_MAIN
+CheckBtn.Position = UDim2.new(0.1, 0, 0.68, 0)
+CheckBtn.Size = UDim2.new(0.38, 0, 0, 25)
+CheckBtn.Font = Enum.Font.SourceSansBold
+CheckBtn.Text = "CHECK"
+CheckBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+CheckBtn.TextSize = 14
 
-    local CheckCorner = Instance.new("UICorner")
-    CheckCorner.CornerRadius = UDim.new(0, 4)
-    CheckCorner.Parent = CheckBtn
+local CheckCorner = Instance.new("UICorner")
+CheckCorner.CornerRadius = UDim.new(0, 4)
+CheckCorner.Parent = CheckBtn
 
-    local CancelBtn = Instance.new("TextButton")
-    CancelBtn.Parent = KeyFrame
-    CancelBtn.BackgroundColor3 = Color3.fromRGB(50, 60, 75)
-    CancelBtn.Position = UDim2.new(0.52, 0, 0.68, 0)
-    CancelBtn.Size = UDim2.new(0.38, 0, 0, 25)
-    CancelBtn.Font = Enum.Font.SourceSansBold
-    CancelBtn.Text = "HUY"
-    CancelBtn.TextColor3 = BLUE_SUPER_LIGHT
-    CancelBtn.TextSize = 14
+local CancelBtn = Instance.new("TextButton")
+CancelBtn.Parent = KeyFrame
+CancelBtn.BackgroundColor3 = Color3.fromRGB(50, 60, 75)
+CancelBtn.Position = UDim2.new(0.52, 0, 0.68, 0)
+CancelBtn.Size = UDim2.new(0.38, 0, 0, 25)
+CancelBtn.Font = Enum.Font.SourceSansBold
+CancelBtn.Text = "HUY"
+CancelBtn.TextColor3 = BLUE_SUPER_LIGHT
+CancelBtn.TextSize = 14
 
-    local CancelCorner = Instance.new("UICorner")
-    CancelCorner.CornerRadius = UDim.new(0, 4)
-    CancelCorner.Parent = CancelBtn
+local CancelCorner = Instance.new("UICorner")
+CancelCorner.CornerRadius = UDim.new(0, 4)
+CancelCorner.Parent = CancelBtn
 
-    -- NÚT BẤM BÍ ẨN 1 CHẠM
-    if titleText == "HE THONG PHAI NHAP KEY MENU" then
-        local SecretBtn = Instance.new("TextButton")
-        SecretBtn.Name = "SecretSecretBtn"
-        SecretBtn.Parent = KeyFrame
-        SecretBtn.BackgroundTransparency = 1
-        SecretBtn.Position = UDim2.new(0, 2, 0, 2)
-        SecretBtn.Size = UDim2.new(0, 15, 0, 15)
-        SecretBtn.Text = ""
+-- NÚT BẤM BÍ ẨN 1 CHẠM
+if titleText == "HE THONG PHAI NHAP KEY MENU" then
+    local SecretBtn = Instance.new("TextButton")
+    SecretBtn.Name = "SecretSecretBtn"
+    SecretBtn.Parent = KeyFrame
+    SecretBtn.BackgroundTransparency = 1
+    SecretBtn.Position = UDim2.new(0, 2, 0, 2)
+    SecretBtn.Size = UDim2.new(0, 15, 0, 15)
+    SecretBtn.Text = ""
+    
+    SecretBtn.MouseButton1Click:Connect(function()
+        Label.Text = "DANG KET NOI BI MAT..."
+        Label.TextColor3 = Color3.fromRGB(255, 185, 0)
         
-        SecretBtn.MouseButton1Click:Connect(function()
-            Label.Text = "DANG KET NOI BI MAT..."
-            Label.TextColor3 = Color3.fromRGB(255, 185, 0)
-            
-            local currentOnlineKey = GetLatestOnlineKey(MENU_KEY_URL)
-            if currentOnlineKey then
-                UserEnteredKey = currentOnlineKey
-                BlurFrame:Destroy()
-                task.spawn(successCallback)
-            else
-                Label.Text = "LOI KET NOI GITHUB!"
-                Label.TextColor3 = Color3.fromRGB(255, 100, 100)
-                task.wait(1.5)
-                Label.Text = titleText
-                Label.TextColor3 = BLUE_SUPER_LIGHT
-            end
-        end)
-    end
-
-    CancelBtn.MouseButton1Click:Connect(function()
-        BlurFrame:Destroy()
-        if failCallback then failCallback() end
-    end)
-
-    CheckBtn.MouseButton1Click:Connect(function()
-        CheckBtn.Text = "CHECKING..."
-        CheckBtn.Active = false
-        
-        local correctKey = ""
-        local fetchSuccess = true
-        
-        if isUrl then
-            local fetched = GetLatestOnlineKey(keyValue)
-            if fetched then 
-                correctKey = fetched 
-            else 
-                fetchSuccess = false 
-            end
-        else
-            correctKey = keyValue
-        end
-        
-        if fetchSuccess and TextBox.Text == correctKey then
-            if titleText == "HE THONG PHAI NHAP KEY MENU" then
-                UserEnteredKey = TextBox.Text
-            end
+        local currentOnlineKey = GetLatestOnlineKey(MENU_KEY_URL)
+        if currentOnlineKey then
+            UserEnteredKey = currentOnlineKey
             BlurFrame:Destroy()
             task.spawn(successCallback)
         else
-            CheckBtn.Text = "CHECK"
-            CheckBtn.Active = true
-            TextBox.Text = ""
-            if not fetchSuccess then
-                TextBox.PlaceholderText = "LOI KET NOI GITHUB!"
-            else
-                TextBox.PlaceholderText = "SAI KEY! Thu lai..."
-            end
-            TextBox.PlaceholderColor3 = Color3.fromRGB(255, 100, 100)
+            Label.Text = "LOI KET NOI GITHUB!"
+            Label.TextColor3 = Color3.fromRGB(255, 100, 100)
+            task.wait(1.5)
+            Label.Text = titleText
+            Label.TextColor3 = BLUE_SUPER_LIGHT
         end
     end)
+end
+
+CancelBtn.MouseButton1Click:Connect(function()
+    BlurFrame:Destroy()
+    if failCallback then failCallback() end
+end)
+
+CheckBtn.MouseButton1Click:Connect(function()
+    CheckBtn.Text = "CHECKING..."
+    CheckBtn.Active = false
+    
+    local correctKey = ""
+    local fetchSuccess = true
+    
+    if isUrl then
+        local fetched = GetLatestOnlineKey(keyValue)
+        if fetched then 
+            correctKey = fetched 
+        else 
+            fetchSuccess = false 
+        end
+    else
+        correctKey = keyValue
+    end
+    
+    if fetchSuccess and TextBox.Text == correctKey then
+        if titleText == "HE THONG PHAI NHAP KEY MENU" then
+            UserEnteredKey = TextBox.Text
+        end
+        BlurFrame:Destroy()
+        task.spawn(successCallback)
+    else
+        CheckBtn.Text = "CHECK"
+        CheckBtn.Active = true
+        TextBox.Text = ""
+        if not fetchSuccess then
+            TextBox.PlaceholderText = "LOI KET NOI GITHUB!"
+        else
+            TextBox.PlaceholderText = "SAI KEY! Thu lai..."
+        end
+        TextBox.PlaceholderColor3 = Color3.fromRGB(255, 100, 100)
+    end
+end)
+
+
 end
 
 -- =========================================================================
@@ -339,8 +341,8 @@ CloseBtn.TextColor3 = Color3.fromRGB(255, 100, 100)
 CloseBtn.TextSize = 20
 
 CloseBtn.MouseButton1Click:Connect(function()
-    MainFrame.Visible = false
-    MiniCircle.Visible = false
+MainFrame.Visible = false
+MiniCircle.Visible = false
 end)
 
 MinimizeBtn.Name = "MinimizeBtn"
@@ -374,7 +376,7 @@ TabBarLayout.Parent = TabBar
 TabBarLayout.Padding = UDim.new(0, 6)
 
 TabBarLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-    TabBar.CanvasSize = UDim2.new(0, 0, 0, TabBarLayout.AbsoluteContentSize.Y + 5)
+TabBar.CanvasSize = UDim2.new(0, 0, 0, TabBarLayout.AbsoluteContentSize.Y + 5)
 end)
 
 local TabBarCorner = Instance.new("UICorner")
@@ -392,143 +394,147 @@ local Tabs = {}
 local CurrentTab = nil
 
 local function CreateTab(tabName)
-    local TabBtn = Instance.new("TextButton")
-    TabBtn.Name = tabName .. "_TabBtn"
-    TabBtn.Parent = TabBar
-    TabBtn.BackgroundColor3 = BLUE_SUPER_DARK
-    TabBtn.BackgroundTransparency = 0.3
-    TabBtn.Size = UDim2.new(1, 0, 0, 35)
-    TabBtn.Font = Enum.Font.SourceSansBold
-    TabBtn.Text = tabName
-    TabBtn.TextColor3 = Color3.fromRGB(130, 160, 200)
-    TabBtn.TextSize = 13
-    TabBtn.TextWrapped = true
+local TabBtn = Instance.new("TextButton")
+TabBtn.Name = tabName .. "_TabBtn"
+TabBtn.Parent = TabBar
+TabBtn.BackgroundColor3 = BLUE_SUPER_DARK
+TabBtn.BackgroundTransparency = 0.3
+TabBtn.Size = UDim2.new(1, 0, 0, 35)
+TabBtn.Font = Enum.Font.SourceSansBold
+TabBtn.Text = tabName
+TabBtn.TextColor3 = Color3.fromRGB(130, 160, 200)
+TabBtn.TextSize = 13
+TabBtn.TextWrapped = true
 
-    local BtnCorner = Instance.new("UICorner")
-    BtnCorner.CornerRadius = UDim.new(0, 6)
-    BtnCorner.Parent = TabBtn
+local BtnCorner = Instance.new("UICorner")
+BtnCorner.CornerRadius = UDim.new(0, 6)
+BtnCorner.Parent = TabBtn
 
-    local ScrollFrame = Instance.new("ScrollingFrame")
-    ScrollFrame.Name = tabName .. "_Scroll"
-    ScrollFrame.Parent = ContentArea
-    ScrollFrame.BackgroundTransparency = 1
-    ScrollFrame.Size = UDim2.new(1, 0, 1, 0)
-    ScrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
-    ScrollFrame.ScrollBarThickness = 4
-    ScrollFrame.Visible = false
+local ScrollFrame = Instance.new("ScrollingFrame")
+ScrollFrame.Name = tabName .. "_Scroll"
+ScrollFrame.Parent = ContentArea
+ScrollFrame.BackgroundTransparency = 1
+ScrollFrame.Size = UDim2.new(1, 0, 1, 0)
+ScrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+ScrollFrame.ScrollBarThickness = 4
+ScrollFrame.Visible = false
 
-    local UIListLayout = Instance.new("UIListLayout")
-    UIListLayout.Parent = ScrollFrame
-    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    UIListLayout.Padding = UDim.new(0, 10)
+local UIListLayout = Instance.new("UIListLayout")
+UIListLayout.Parent = ScrollFrame
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 10)
 
-    UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-        ScrollFrame.CanvasSize = UDim2.new(0, 0, 0, UIListLayout.AbsoluteContentSize.Y + 10)
-    end)
+UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    ScrollFrame.CanvasSize = UDim2.new(0, 0, 0, UIListLayout.AbsoluteContentSize.Y + 10)
+end)
 
-    Tabs[tabName] = { Button = TabBtn, Frame = ScrollFrame }
+Tabs[tabName] = { Button = TabBtn, Frame = ScrollFrame }
 
-    local function Select()
-        if CurrentTab then
-            TweenService:Create(CurrentTab.Button, TweenInfo.new(0.2), {BackgroundColor3 = BLUE_SUPER_DARK, TextColor3 = Color3.fromRGB(130, 160, 200)}):Play()
-            CurrentTab.Frame.Visible = false
-        end
-        CurrentTab = Tabs[tabName]
-        TweenService:Create(TabBtn, TweenInfo.new(0.2), {BackgroundColor3 = BLUE_MAIN, TextColor3 = BLUE_SUPER_LIGHT}):Play()
-        ScrollFrame.Visible = true
+local function Select()
+    if CurrentTab then
+        TweenService:Create(CurrentTab.Button, TweenInfo.new(0.2), {BackgroundColor3 = BLUE_SUPER_DARK, TextColor3 = Color3.fromRGB(130, 160, 200)}):Play()
+        CurrentTab.Frame.Visible = false
     end
+    CurrentTab = Tabs[tabName]
+    TweenService:Create(TabBtn, TweenInfo.new(0.2), {BackgroundColor3 = BLUE_MAIN, TextColor3 = BLUE_SUPER_LIGHT}):Play()
+    ScrollFrame.Visible = true
+end
 
-    TabBtn.MouseButton1Click:Connect(Select)
-    if not CurrentTab then Select() end
+TabBtn.MouseButton1Click:Connect(Select)
+if not CurrentTab then Select() end
+
+
 end
 
 -- =========================================================================
 -- HÀM THÊM SCRIPT VÀO TAB
 -- =========================================================================
 local function AddScriptToTab(tabName, scriptName, description, keySettings, callback)
-    local targetTab = Tabs[tabName]
-    if not targetTab then return end
+local targetTab = Tabs[tabName]
+if not targetTab then return end
 
-    local ScrollFrame = targetTab.Frame
-    local ButtonFrame = Instance.new("Frame")
-    local ScriptBtn = Instance.new("TextButton")
-    local DescLabel = Instance.new("TextLabel")
+local ScrollFrame = targetTab.Frame
+local ButtonFrame = Instance.new("Frame")
+local ScriptBtn = Instance.new("TextButton")
+local DescLabel = Instance.new("TextLabel")
 
-    ButtonFrame.Name = scriptName .. "_Frame"
-    ButtonFrame.Parent = ScrollFrame
-    ButtonFrame.BackgroundColor3 = BLUE_DARK
-    ButtonFrame.BackgroundTransparency = 0.2
-    ButtonFrame.Size = UDim2.new(1, -5, 0, 50)
+ButtonFrame.Name = scriptName .. "_Frame"
+ButtonFrame.Parent = ScrollFrame
+ButtonFrame.BackgroundColor3 = BLUE_DARK
+ButtonFrame.BackgroundTransparency = 0.2
+ButtonFrame.Size = UDim2.new(1, -5, 0, 50)
 
-    local FrameCorner = Instance.new("UICorner")
-    FrameCorner.CornerRadius = UDim.new(0, 6)
-    FrameCorner.Parent = ButtonFrame
+local FrameCorner = Instance.new("UICorner")
+FrameCorner.CornerRadius = UDim.new(0, 6)
+FrameCorner.Parent = ButtonFrame
 
-    ScriptBtn.Name = "ScriptBtn"
-    ScriptBtn.Parent = ButtonFrame
-    ScriptBtn.BackgroundColor3 = BLUE_MAIN
-    ScriptBtn.Position = UDim2.new(0.7, 0, 0.15, 0)
-    ScriptBtn.Size = UDim2.new(0.26, 0, 0.7, 0)
-    ScriptBtn.Font = Enum.Font.SourceSansBold
-    ScriptBtn.Text = "RUN"
-    ScriptBtn.TextColor3 = BLUE_SUPER_LIGHT
-    ScriptBtn.TextSize = 15
+ScriptBtn.Name = "ScriptBtn"
+ScriptBtn.Parent = ButtonFrame
+ScriptBtn.BackgroundColor3 = BLUE_MAIN
+ScriptBtn.Position = UDim2.new(0.7, 0, 0.15, 0)
+ScriptBtn.Size = UDim2.new(0.26, 0, 0.7, 0)
+ScriptBtn.Font = Enum.Font.SourceSansBold
+ScriptBtn.Text = "RUN"
+ScriptBtn.TextColor3 = BLUE_SUPER_LIGHT
+ScriptBtn.TextSize = 15
 
-    local BtnCorner = Instance.new("UICorner")
-    BtnCorner.CornerRadius = UDim.new(0, 4)
-    BtnCorner.Parent = ScriptBtn
+local BtnCorner = Instance.new("UICorner")
+BtnCorner.CornerRadius = UDim.new(0, 4)
+BtnCorner.Parent = ScriptBtn
 
-    local NameLabel = Instance.new("TextLabel")
-    NameLabel.Parent = ButtonFrame
-    NameLabel.BackgroundTransparency = 1
-    NameLabel.Position = UDim2.new(0, 10, 0, 6)
-    NameLabel.Size = UDim2.new(0.6, 0, 0, 20)
-    NameLabel.Font = Enum.Font.SourceSansBold
-    NameLabel.Text = scriptName
-    NameLabel.TextColor3 = Color3.fromRGB(240, 248, 255)
-    NameLabel.TextSize = 15
-    NameLabel.TextXAlignment = Enum.TextXAlignment.Left
+local NameLabel = Instance.new("TextLabel")
+NameLabel.Parent = ButtonFrame
+NameLabel.BackgroundTransparency = 1
+NameLabel.Position = UDim2.new(0, 10, 0, 6)
+NameLabel.Size = UDim2.new(0.6, 0, 0, 20)
+NameLabel.Font = Enum.Font.SourceSansBold
+NameLabel.Text = scriptName
+NameLabel.TextColor3 = Color3.fromRGB(240, 248, 255)
+NameLabel.TextSize = 15
+NameLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-    DescLabel.Parent = ButtonFrame
-    DescLabel.BackgroundTransparency = 1
-    DescLabel.Position = UDim2.new(0, 10, 0, 24)
-    DescLabel.Size = UDim2.new(0.6, 0, 0, 20)
-    DescLabel.Font = Enum.Font.SourceSansItalic
-    DescLabel.Text = description
-    DescLabel.TextColor3 = Color3.fromRGB(120, 150, 180)
-    DescLabel.TextSize = 12
-    DescLabel.TextXAlignment = Enum.TextXAlignment.Left
+DescLabel.Parent = ButtonFrame
+DescLabel.BackgroundTransparency = 1
+DescLabel.Position = UDim2.new(0, 10, 0, 24)
+DescLabel.Size = UDim2.new(0.6, 0, 0, 20)
+DescLabel.Font = Enum.Font.SourceSansItalic
+DescLabel.Text = description
+DescLabel.TextColor3 = Color3.fromRGB(120, 150, 180)
+DescLabel.TextSize = 12
+DescLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-    ScriptBtn.MouseButton1Click:Connect(function()
-        local compressTween = TweenService:Create(ScriptBtn, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-            Size = UDim2.new(0.23, 0, 0.6, 0),
-            Position = UDim2.new(0.715, 0, 0.2, 0)
-        })
-        local restoreTween = TweenService:Create(ScriptBtn, TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-            Size = UDim2.new(0.26, 0, 0.7, 0),
-            Position = UDim2.new(0.7, 0, 0.15, 0)
-        })
-        
-        compressTween:Play()
-        compressTween.Completed:Connect(function()
-            restoreTween:Play()
-        end)
-
-        local function ExecuteScript()
-            ScriptBtn.Text = "LOADING..."
-            ScriptBtn.BackgroundColor3 = Color3.fromRGB(40, 60, 80)
-            pcall(callback)
-            task.wait(1)
-            ScriptBtn.Text = "RUN"
-            ScriptBtn.BackgroundColor3 = BLUE_MAIN
-        end
-        
-        if keySettings and keySettings.Value ~= "" then
-            PromptKeySystem(MainFrame, "XAC THƯC KEY SCRIPT", keySettings.Value, keySettings.IsUrl, ExecuteScript, nil)
-        else
-            task.spawn(ExecuteScript)
-        end
+ScriptBtn.MouseButton1Click:Connect(function()
+    local compressTween = TweenService:Create(ScriptBtn, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        Size = UDim2.new(0.23, 0, 0.6, 0),
+        Position = UDim2.new(0.715, 0, 0.2, 0)
+    })
+    local restoreTween = TweenService:Create(ScriptBtn, TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+        Size = UDim2.new(0.26, 0, 0.7, 0),
+        Position = UDim2.new(0.7, 0, 0.15, 0)
+    })
+    
+    compressTween:Play()
+    compressTween.Completed:Connect(function()
+        restoreTween:Play()
     end)
+
+    local function ExecuteScript()
+        ScriptBtn.Text = "LOADING..."
+        ScriptBtn.BackgroundColor3 = Color3.fromRGB(40, 60, 80)
+        pcall(callback)
+        task.wait(1)
+        ScriptBtn.Text = "RUN"
+        ScriptBtn.BackgroundColor3 = BLUE_MAIN
+    end
+    
+    if keySettings and keySettings.Value ~= "" then
+        PromptKeySystem(MainFrame, "XAC THƯC KEY SCRIPT", keySettings.Value, keySettings.IsUrl, ExecuteScript, nil)
+    else
+        task.spawn(ExecuteScript)
+    end
+end)
+
+
 end
 
 -- =========================================================================
@@ -540,69 +546,77 @@ CreateTab("Tower Defense Simulator")
 
 -- ĐÃ CẬP NHẬT: Sửa đổi mã nguồn tải TDS Nexus chính xác theo URL mới
 AddScriptToTab("Tower Defense Simulator", "Script TDS Nexus", "Tu dong load ma nguon TDS Nexus chinh thuc tu GitHub", { Value = "", IsUrl = false }, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/Nexus/refs/heads/main/Nexus.txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/Nexus/refs/heads/main/Nexus.txt"))()
 end)
 
 AddScriptToTab("Tower Defense Simulator", "Aether TDSAT", "Tai script Aether tu kho luu tru GitHub", { Value = "", IsUrl = false }, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/Aether/refs/heads/main/TDSAT.txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/Aether/refs/heads/main/TDSAT.txt"))()
 end)
 
 AddScriptToTab("Tower Defense Simulator", "Anti AFK Bypass", "Chong bi kick khi treo may qua 20 phut (Yeu cau Key)", { Value = ANTIAFK_KEY, IsUrl = false }, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/hassanxzayn-lua/Anti-afk/main/antiafkbyhassanxzyn"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/hassanxzayn-lua/Anti-afk/main/antiafkbyhassanxzyn"))()
 end)
 
 AddScriptToTab("Tower Defense Simulator", "Zephyr V2 Hub", "He thong check Key tu dong cap nhat tu kho luu tru GitHub", { Value = ZEPHYR_KEY_URL, IsUrl = true }, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/TheRealAvrwm/Zephyr-V2/refs/heads/main/script.lua", true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/TheRealAvrwm/Zephyr-V2/refs/heads/main/script.lua", true))()
 end)
 
--- Tab 2: Other
+-- Tab 2: Mini City Tycoon (TÍCH HỢP CODE LINK GITHUB RAW MỚI & YÊU CẦU KEY)
+CreateTab("Mini City Tycoon")
+AddScriptToTab("Mini City Tycoon", "Mini Tycoon Rainbow", "Giao dien hack Mini City Tycoon ho tro viendoi mau Rainbow (Yeu cau Key)", { Value = "MiniTycoon123", IsUrl = false }, function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/MiniTycoon/refs/heads/main/minitycoon.txt", true))()
+end)
+
+-- Tab 3: Other
 CreateTab("Other")
 local OtherTabKeySettings = { Value = OTHER_TAB_KEY_URL, IsUrl = true }
 
 AddScriptToTab("Other", "Troll Sex", "FE Trolling Player R6 va R15 tu GitHub", OtherTabKeySettings, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/3LD4D0/FE-TROLLING-PLAYER-R6-R15/6eff8792afed57458d5114478b453a6f6bce5799/Fe%20trolling%20Player%20R6%20AND%20R15"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/3LD4D0/FE-TROLLING-PLAYER-R6-R15/6eff8792afed57458d5114478b453a6f6bce5799/Fe%20trolling%20Player%20R6%20AND%20R15"))()
 end)
 AddScriptToTab("Other", "Tinh Nang V4", "Tai ma nguon TinhNangTVH tu TrongVuHub4.0", OtherTabKeySettings, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/TrongVuHub4.0/refs/heads/main/TinhNangTVH.txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/TrongVuHub4.0/refs/heads/main/TinhNangTVH.txt"))()
 end)
 AddScriptToTab("Other", "C00lgui", "Kich hoat giao dien TrongVuGui tu GitHub", OtherTabKeySettings, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/TrongVuGui/refs/heads/main/TrongGui.txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/TrongVuGui/refs/heads/main/TrongGui.txt"))()
 end)
 AddScriptToTab("Other", "Dao", "Kich hoat script Grab V4", OtherTabKeySettings, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Icalock/Server/refs/heads/main/Grab%20V4.txt", true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Icalock/Server/refs/heads/main/Grab%20V4.txt", true))()
 end)
 AddScriptToTab("Other", "Aimbot", "He thong ho tro ngam tieu cu tu kho luu tru", OtherTabKeySettings, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/AimbotAnti-Ban/refs/heads/main/aimbot.txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/AimbotAnti-Ban/refs/heads/main/aimbot.txt"))()
 end)
 AddScriptToTab("Other", "Safemode", "Chay chuong trinh o che do an toan", OtherTabKeySettings, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/safemode/refs/heads/main/safe.txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/safemode/refs/heads/main/safe.txt"))()
 end)
 AddScriptToTab("Other", "Jump o map cam", "Bo qua gioi han nhay tai cac khu vuc bi cam", OtherTabKeySettings, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/jumpcam/refs/heads/main/jump.txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/jumpcam/refs/heads/main/jump.txt"))()
 end)
 AddScriptToTab("Other", "Sethome", "Kich hoat chuc nang luu va quay tro ve diem sethome", OtherTabKeySettings, function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/sethome/refs/heads/main/set.txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/sethome/refs/heads/main/set.txt"))()
 end)
 
 -- =========================================================================
 -- VÒNG LẶP LIVE KEY CHECKER LOOP (HOẠT ĐỘNG ĐỘC LẬP NGẦM - ANTI-CACHE)
 -- =========================================================================
 local function StartLiveKeyChecker()
-    task.spawn(function()
-        while task.wait(10) do
-            if KeyVerificationSuccess then
-                local currentOnlineKey = GetLatestOnlineKey(MENU_KEY_URL)
+task.spawn(function()
+while task.wait(10) do
+if KeyVerificationSuccess then
+local currentOnlineKey = GetLatestOnlineKey(MENU_KEY_URL)
 
-                if not currentOnlineKey or currentOnlineKey ~= UserEnteredKey then
-                    if ScreenGui then
-                        ScreenGui:Destroy()
-                    end
-                    game:GetService("Players").LocalPlayer:Kick("\n[TrongVu Hub]\nKey đã thay đổi hoặc hết hạn!\nVui lòng lấy key mới.")
-                    break
+            if not currentOnlineKey or currentOnlineKey ~= UserEnteredKey then
+                if ScreenGui then
+                    ScreenGui:Destroy()
                 end
+                game:GetService("Players").LocalPlayer:Kick("\n[TrongVu Hub]\nKey đã thay đổi hoặc hết hạn!\nVui lòng lấy key mới.")
+                break
             end
         end
-    end)
+    end
+end)
+
+
 end
 
 -- Khởi chạy Giao diện chính xác nhận ban đầu...
@@ -613,24 +627,26 @@ InitFrame.Size = UDim2.new(1, 0, 1, 0)
 InitFrame.BackgroundTransparency = 1
 
 PromptKeySystem(
-    InitFrame,
-    "HE THONG PHAI NHAP KEY MENU",
-    MENU_KEY_URL,
-    true,
-    function()
-        InitFrame:Destroy()
-        MainFrame.Position = UDim2.new(0.5, -250, 0.4, -175)
-        MainFrame.Size = UDim2.new(0, 500, 0, 350)
-        MainFrame.Visible = true
+InitFrame,
+"HE THONG PHAI NHAP KEY MENU",
+MENU_KEY_URL,
+true,
+function()
+InitFrame:Destroy()
+MainFrame.Position = UDim2.new(0.5, -250, 0.4, -175)
+MainFrame.Size = UDim2.new(0, 500, 0, 350)
+MainFrame.Visible = true
 
-        TweenService:Create(MainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-            Position = UDim2.new(0.5, -250, 0.5, -175)
-        }):Play()
-        
-        KeyVerificationSuccess = true
-        StartLiveKeyChecker()
-    end,
-    function()
-        ScreenGui:Destroy()
-    end
+    TweenService:Create(MainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+        Position = UDim2.new(0.5, -250, 0.5, -175)
+    }):Play()
+    
+    KeyVerificationSuccess = true
+    StartLiveKeyChecker()
+end,
+function()
+    ScreenGui:Destroy()
+end
+
+
 )
