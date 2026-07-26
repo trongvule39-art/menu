@@ -1,32 +1,26 @@
 -- =========================================================================
 -- MENU TỔNG HỢP SCRIPT - TRỌNG VŨ HUB (GRADIENT BLUE STYLE - BACKGROUND CHECK)
 -- =========================================================================
-
 -- STREAMING_CHUNK: Khởi tạo dịch vụ và dọn dẹp Menu cũ...
 if game:GetService("CoreGui"):FindFirstChild("TrongVuHubMenu") then
 game:GetService("CoreGui"):FindFirstChild("TrongVuHubMenu"):Destroy()
 end
-
 local TweenService = game:GetService("TweenService")
 local MENU_KEY_URL = "https://raw.githubusercontent.com/trongvule39-art/menu/refs/heads/main/keymenu.txt"
 local ZEPHYR_KEY_URL = "https://raw.githubusercontent.com/TheRealAvrwm/Zephyr-V2/refs/heads/main/script.lua"
 local OTHER_TAB_KEY_URL = "https://raw.githubusercontent.com/trongvule39-art/key/refs/heads/main/key.txt"
 local ANTIAFK_KEY = "AFKHKSEX"
-
 local UserEnteredKey = ""
 local KeyVerificationSuccess = false
-
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
 local CloseBtn = Instance.new("TextButton")
 local MinimizeBtn = Instance.new("TextButton")
 local MiniCircle = Instance.new("TextButton")
-
 ScreenGui.Name = "TrongVuHubMenu"
 ScreenGui.Parent = game:GetService("CoreGui")
 ScreenGui.ResetOnSpawn = false
-
 -- =========================================================================
 -- BẢNG MÀU GRADIENT XANH DƯƠNG
 -- =========================================================================
@@ -35,7 +29,6 @@ local BLUE_LIGHT        = Color3.fromRGB(0, 160, 255)
 local BLUE_MAIN         = Color3.fromRGB(0, 100, 200)
 local BLUE_DARK         = Color3.fromRGB(15, 25, 45)
 local BLUE_SUPER_DARK   = Color3.fromRGB(8, 12, 25)
-
 MiniCircle.Name = "MiniCircle"
 MiniCircle.Parent = ScreenGui
 MiniCircle.BackgroundColor3 = BLUE_MAIN
@@ -48,17 +41,14 @@ MiniCircle.TextSize = 0
 MiniCircle.Visible = false
 MiniCircle.Active = true
 MiniCircle.Draggable = true
-
 local CircleCorner = Instance.new("UICorner")
 CircleCorner.CornerRadius = UDim.new(1, 0)
 CircleCorner.Parent = MiniCircle
-
 local CircleStroke = Instance.new("UIStroke")
 CircleStroke.Thickness = 1.5
 CircleStroke.Color = BLUE_SUPER_LIGHT
 CircleStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 CircleStroke.Parent = MiniCircle
-
 -- =========================================================================
 -- HÀM LẤY KEY ONLINE (ANTI-CACHE SERVER GITHUB & EXECUTOR)
 -- =========================================================================
@@ -72,12 +62,10 @@ return result:gsub("^%s*(.-)%s*$", "%1")
 end
 return nil
 end
-
 -- =========================================================================
 -- ANIMATION ĐÓNG / MỞ MENU
 -- =========================================================================
 local isTweening = false
-
 local function MinimizeMenu()
 if isTweening then return end
 isTweening = true
@@ -104,7 +92,6 @@ circleTween:Play()
 circleTween.Completed:Connect(function() isTweening = false end)
 end)
 end
-
 local function MaximizeMenu()
 if isTweening then return end
 isTweening = true
@@ -129,10 +116,8 @@ mainTween:Play()
 mainTween.Completed:Connect(function() isTweening = false end)
 end)
 end
-
 MinimizeBtn.MouseButton1Click:Connect(MinimizeMenu)
 MiniCircle.MouseButton1Click:Connect(MaximizeMenu)
-
 -- =========================================================================
 -- HỆ THỐNG KIỂM TRA KEY CHUNG
 -- =========================================================================
@@ -145,30 +130,24 @@ BlurFrame.BackgroundColor3 = BLUE_SUPER_DARK
 BlurFrame.BackgroundTransparency = 1
 BlurFrame.Text = ""
 BlurFrame.AutoButtonColor = false
-
 TweenService:Create(BlurFrame, TweenInfo.new(0.3), {BackgroundTransparency = 0.6}):Play()
-
 local KeyFrame = Instance.new("Frame")
 KeyFrame.Name = "KeyFrame"
 KeyFrame.Parent = BlurFrame
 KeyFrame.BackgroundColor3 = BLUE_DARK
 KeyFrame.BackgroundTransparency = 0.1
 KeyFrame.Size = UDim2.new(0, 250, 0, 120)
-
 local KeyCorner = Instance.new("UICorner")
 KeyCorner.CornerRadius = UDim.new(0, 8)
 KeyCorner.Parent = KeyFrame
-
 local KeyStroke = Instance.new("UIStroke")
 KeyStroke.Thickness = 1.5
 KeyStroke.Color = BLUE_MAIN
 KeyStroke.Parent = KeyFrame
-
 KeyFrame.Position = UDim2.new(0.5, -125, 0.4, -60)
 TweenService:Create(KeyFrame, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
     Position = UDim2.new(0.5, -125, 0.5, -60)
 }):Play()
-
 local Label = Instance.new("TextLabel")
 Label.Parent = KeyFrame
 Label.BackgroundTransparency = 1
@@ -178,7 +157,6 @@ Label.Font = Enum.Font.SourceSansBold
 Label.Text = titleText
 Label.TextColor3 = BLUE_SUPER_LIGHT
 Label.TextSize = 14
-
 local TextBox = Instance.new("TextBox")
 TextBox.Parent = KeyFrame
 TextBox.BackgroundColor3 = BLUE_SUPER_DARK
@@ -189,11 +167,9 @@ TextBox.PlaceholderText = "Nhap Key vao day..."
 TextBox.Text = ""
 TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextBox.TextSize = 14
-
 local BoxCorner = Instance.new("UICorner")
 BoxCorner.CornerRadius = UDim.new(0, 4)
 BoxCorner.Parent = TextBox
-
 local CheckBtn = Instance.new("TextButton")
 CheckBtn.Parent = KeyFrame
 CheckBtn.BackgroundColor3 = BLUE_MAIN
@@ -203,11 +179,9 @@ CheckBtn.Font = Enum.Font.SourceSansBold
 CheckBtn.Text = "CHECK"
 CheckBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 CheckBtn.TextSize = 14
-
 local CheckCorner = Instance.new("UICorner")
 CheckCorner.CornerRadius = UDim.new(0, 4)
 CheckCorner.Parent = CheckBtn
-
 local CancelBtn = Instance.new("TextButton")
 CancelBtn.Parent = KeyFrame
 CancelBtn.BackgroundColor3 = Color3.fromRGB(50, 60, 75)
@@ -217,11 +191,9 @@ CancelBtn.Font = Enum.Font.SourceSansBold
 CancelBtn.Text = "HUY"
 CancelBtn.TextColor3 = BLUE_SUPER_LIGHT
 CancelBtn.TextSize = 14
-
 local CancelCorner = Instance.new("UICorner")
 CancelCorner.CornerRadius = UDim.new(0, 4)
 CancelCorner.Parent = CancelBtn
-
 -- NÚT BẤM BÍ ẨN 1 CHẠM
 if titleText == "HE THONG PHAI NHAP KEY MENU" then
     local SecretBtn = Instance.new("TextButton")
@@ -250,12 +222,10 @@ if titleText == "HE THONG PHAI NHAP KEY MENU" then
         end
     end)
 end
-
 CancelBtn.MouseButton1Click:Connect(function()
     BlurFrame:Destroy()
     if failCallback then failCallback() end
 end)
-
 CheckBtn.MouseButton1Click:Connect(function()
     CheckBtn.Text = "CHECKING..."
     CheckBtn.Active = false
@@ -292,10 +262,7 @@ CheckBtn.MouseButton1Click:Connect(function()
         TextBox.PlaceholderColor3 = Color3.fromRGB(255, 100, 100)
     end
 end)
-
-
 end
-
 -- =========================================================================
 -- KHỞI TẠO NỀN GIAO DIỆN CHÍNH
 -- =========================================================================
@@ -308,17 +275,14 @@ MainFrame.Size = UDim2.new(0, 500, 0, 350)
 MainFrame.Active = true
 MainFrame.Draggable = true
 MainFrame.Visible = false
-
 local MainCorner = Instance.new("UICorner")
 MainCorner.CornerRadius = UDim.new(0, 10)
 MainCorner.Parent = MainFrame
-
 local MainStroke = Instance.new("UIStroke")
 MainStroke.Thickness = 2
 MainStroke.Color = BLUE_MAIN
 MainStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 MainStroke.Parent = MainFrame
-
 Title.Name = "Title"
 Title.Parent = MainFrame
 Title.BackgroundTransparency = 1
@@ -329,7 +293,6 @@ Title.Text = "TRONG VU HUB - SCRIPT MENU"
 Title.TextColor3 = BLUE_SUPER_LIGHT
 Title.TextSize = 22
 Title.TextXAlignment = Enum.TextXAlignment.Left
-
 CloseBtn.Name = "CloseBtn"
 CloseBtn.Parent = MainFrame
 CloseBtn.BackgroundTransparency = 1
@@ -339,12 +302,10 @@ CloseBtn.Font = Enum.Font.SourceSansBold
 CloseBtn.Text = "X"
 CloseBtn.TextColor3 = Color3.fromRGB(255, 100, 100)
 CloseBtn.TextSize = 20
-
 CloseBtn.MouseButton1Click:Connect(function()
 MainFrame.Visible = false
 MiniCircle.Visible = false
 end)
-
 MinimizeBtn.Name = "MinimizeBtn"
 MinimizeBtn.Parent = MainFrame
 MinimizeBtn.BackgroundTransparency = 1
@@ -354,7 +315,6 @@ MinimizeBtn.Font = Enum.Font.SourceSansBold
 MinimizeBtn.Text = "-"
 MinimizeBtn.TextColor3 = BLUE_SUPER_LIGHT
 MinimizeBtn.TextSize = 24
-
 local TabBar = Instance.new("ScrollingFrame")
 TabBar.Name = "TabBar"
 TabBar.Parent = MainFrame
@@ -364,35 +324,28 @@ TabBar.Position = UDim2.new(0, 10, 0, 55)
 TabBar.Size = UDim2.new(0, 140, 1, -65)
 TabBar.CanvasSize = UDim2.new(0, 0, 0, 0)
 TabBar.ScrollBarThickness = 2
-
 local TabBarStroke = Instance.new("UIStroke")
 TabBarStroke.Thickness = 1
 TabBarStroke.Color = BLUE_MAIN
 TabBarStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 TabBarStroke.Parent = TabBar
-
 local TabBarLayout = Instance.new("UIListLayout")
 TabBarLayout.Parent = TabBar
 TabBarLayout.Padding = UDim.new(0, 6)
-
 TabBarLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
 TabBar.CanvasSize = UDim2.new(0, 0, 0, TabBarLayout.AbsoluteContentSize.Y + 5)
 end)
-
 local TabBarCorner = Instance.new("UICorner")
 TabBarCorner.CornerRadius = UDim.new(0, 6)
 TabBarCorner.Parent = TabBar
-
 local ContentArea = Instance.new("Frame")
 ContentArea.Name = "ContentArea"
 ContentArea.Parent = MainFrame
 ContentArea.BackgroundTransparency = 1
 ContentArea.Position = UDim2.new(0, 160, 0, 55)
 ContentArea.Size = UDim2.new(1, -170, 1, -65)
-
 local Tabs = {}
 local CurrentTab = nil
-
 local function CreateTab(tabName)
 local TabBtn = Instance.new("TextButton")
 TabBtn.Name = tabName .. "_TabBtn"
@@ -405,11 +358,9 @@ TabBtn.Text = tabName
 TabBtn.TextColor3 = Color3.fromRGB(130, 160, 200)
 TabBtn.TextSize = 13
 TabBtn.TextWrapped = true
-
 local BtnCorner = Instance.new("UICorner")
 BtnCorner.CornerRadius = UDim.new(0, 6)
 BtnCorner.Parent = TabBtn
-
 local ScrollFrame = Instance.new("ScrollingFrame")
 ScrollFrame.Name = tabName .. "_Scroll"
 ScrollFrame.Parent = ContentArea
@@ -418,18 +369,14 @@ ScrollFrame.Size = UDim2.new(1, 0, 1, 0)
 ScrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
 ScrollFrame.ScrollBarThickness = 4
 ScrollFrame.Visible = false
-
 local UIListLayout = Instance.new("UIListLayout")
 UIListLayout.Parent = ScrollFrame
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Padding = UDim.new(0, 10)
-
 UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
     ScrollFrame.CanvasSize = UDim2.new(0, 0, 0, UIListLayout.AbsoluteContentSize.Y + 10)
 end)
-
 Tabs[tabName] = { Button = TabBtn, Frame = ScrollFrame }
-
 local function Select()
     if CurrentTab then
         TweenService:Create(CurrentTab.Button, TweenInfo.new(0.2), {BackgroundColor3 = BLUE_SUPER_DARK, TextColor3 = Color3.fromRGB(130, 160, 200)}):Play()
@@ -439,35 +386,27 @@ local function Select()
     TweenService:Create(TabBtn, TweenInfo.new(0.2), {BackgroundColor3 = BLUE_MAIN, TextColor3 = BLUE_SUPER_LIGHT}):Play()
     ScrollFrame.Visible = true
 end
-
 TabBtn.MouseButton1Click:Connect(Select)
 if not CurrentTab then Select() end
-
-
 end
-
 -- =========================================================================
 -- HÀM THÊM SCRIPT VÀO TAB
 -- =========================================================================
 local function AddScriptToTab(tabName, scriptName, description, keySettings, callback)
 local targetTab = Tabs[tabName]
 if not targetTab then return end
-
 local ScrollFrame = targetTab.Frame
 local ButtonFrame = Instance.new("Frame")
 local ScriptBtn = Instance.new("TextButton")
 local DescLabel = Instance.new("TextLabel")
-
 ButtonFrame.Name = scriptName .. "_Frame"
 ButtonFrame.Parent = ScrollFrame
 ButtonFrame.BackgroundColor3 = BLUE_DARK
 ButtonFrame.BackgroundTransparency = 0.2
 ButtonFrame.Size = UDim2.new(1, -5, 0, 50)
-
 local FrameCorner = Instance.new("UICorner")
 FrameCorner.CornerRadius = UDim.new(0, 6)
 FrameCorner.Parent = ButtonFrame
-
 ScriptBtn.Name = "ScriptBtn"
 ScriptBtn.Parent = ButtonFrame
 ScriptBtn.BackgroundColor3 = BLUE_MAIN
@@ -477,11 +416,9 @@ ScriptBtn.Font = Enum.Font.SourceSansBold
 ScriptBtn.Text = "RUN"
 ScriptBtn.TextColor3 = BLUE_SUPER_LIGHT
 ScriptBtn.TextSize = 15
-
 local BtnCorner = Instance.new("UICorner")
 BtnCorner.CornerRadius = UDim.new(0, 4)
 BtnCorner.Parent = ScriptBtn
-
 local NameLabel = Instance.new("TextLabel")
 NameLabel.Parent = ButtonFrame
 NameLabel.BackgroundTransparency = 1
@@ -492,7 +429,6 @@ NameLabel.Text = scriptName
 NameLabel.TextColor3 = Color3.fromRGB(240, 248, 255)
 NameLabel.TextSize = 15
 NameLabel.TextXAlignment = Enum.TextXAlignment.Left
-
 DescLabel.Parent = ButtonFrame
 DescLabel.BackgroundTransparency = 1
 DescLabel.Position = UDim2.new(0, 10, 0, 24)
@@ -502,7 +438,6 @@ DescLabel.Text = description
 DescLabel.TextColor3 = Color3.fromRGB(120, 150, 180)
 DescLabel.TextSize = 12
 DescLabel.TextXAlignment = Enum.TextXAlignment.Left
-
 ScriptBtn.MouseButton1Click:Connect(function()
     local compressTween = TweenService:Create(ScriptBtn, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         Size = UDim2.new(0.23, 0, 0.6, 0),
@@ -517,7 +452,6 @@ ScriptBtn.MouseButton1Click:Connect(function()
     compressTween.Completed:Connect(function()
         restoreTween:Play()
     end)
-
     local function ExecuteScript()
         ScriptBtn.Text = "LOADING..."
         ScriptBtn.BackgroundColor3 = Color3.fromRGB(40, 60, 80)
@@ -533,44 +467,33 @@ ScriptBtn.MouseButton1Click:Connect(function()
         task.spawn(ExecuteScript)
     end
 end)
-
-
 end
-
 -- =========================================================================
 -- DANH SÁCH TABS & SCRIPTS
 -- =========================================================================
-
 -- Tab 1: Tower Defense Simulator
 CreateTab("Tower Defense Simulator")
-
 -- ĐÃ CẬP NHẬT: Sửa đổi mã nguồn tải TDS Nexus chính xác theo URL mới
 AddScriptToTab("Tower Defense Simulator", "Script TDS Nexus", "Tu dong load ma nguon TDS Nexus chinh thuc tu GitHub", { Value = "", IsUrl = false }, function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/Nexus/refs/heads/main/Nexus.txt"))()
 end)
-
-AddScriptToTab("Tower Defense Simulator", "Aether TDSAT", "Tai script Aether tu kho luu tru GitHub", { Value = "", IsUrl = false }, function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/Aether/refs/heads/main/TDSAT.txt"))()
+AddScriptToTab("Tower Defense Simulator", "TrVu-JunPop TDSAT", "Tai script TrVu-JunPop tu kho luu tru", { Value = "", IsUrl = false }, function()
+loadstring(game:HttpGet("https://pastefy.app/PzJuvfeA/raw"))()
 end)
-
 AddScriptToTab("Tower Defense Simulator", "Anti AFK Bypass", "Chong bi kick khi treo may qua 20 phut (Yeu cau Key)", { Value = ANTIAFK_KEY, IsUrl = false }, function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/hassanxzayn-lua/Anti-afk/main/antiafkbyhassanxzyn"))()
 end)
-
 AddScriptToTab("Tower Defense Simulator", "Zephyr V2 Hub", "He thong check Key tu dong cap nhat tu kho luu tru GitHub", { Value = ZEPHYR_KEY_URL, IsUrl = true }, function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/TheRealAvrwm/Zephyr-V2/refs/heads/main/script.lua", true))()
 end)
-
--- Tab 2: Mini City Tycoon (TÍCH HỢP CODE LINK GITHUB RAW MỚI & YÊU CẦU KEY)
+-- Tab 2: Mini City Tycoon (ĐÃ BỎ YÊU CẦU KEY)
 CreateTab("Mini City Tycoon")
-AddScriptToTab("Mini City Tycoon", "Mini Tycoon Rainbow", "Giao dien hack Mini City Tycoon ho tro viendoi mau Rainbow (Yeu cau Key)", { Value = "MiniTycoon123", IsUrl = false }, function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/MiniTycoon/refs/heads/main/minitycoon.txt", true))()
+AddScriptToTab("Mini City Tycoon", "Mini Tycoon Trọng Béo Tv", "Giao dien hack Mini City Tycoon ho tro viendoi mau Rainbow", { Value = "", IsUrl = false }, function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/MiniTycoonDancePoopSuperHyperUltimateUltraBonesMeatLethosoLesothoLedavoDavosMangoOhWeDance/refs/heads/main/MiniTycoonDancePoopSuperHyperUltimateUltraBonesMeatLethosoLesothoLedavoDavoMang.txt"))()
 end)
-
 -- Tab 3: Other
 CreateTab("Other")
 local OtherTabKeySettings = { Value = OTHER_TAB_KEY_URL, IsUrl = true }
-
 AddScriptToTab("Other", "Troll Sex", "FE Trolling Player R6 va R15 tu GitHub", OtherTabKeySettings, function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/3LD4D0/FE-TROLLING-PLAYER-R6-R15/6eff8792afed57458d5114478b453a6f6bce5799/Fe%20trolling%20Player%20R6%20AND%20R15"))()
 end)
@@ -595,7 +518,6 @@ end)
 AddScriptToTab("Other", "Sethome", "Kich hoat chuc nang luu va quay tro ve diem sethome", OtherTabKeySettings, function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/sethome/refs/heads/main/set.txt"))()
 end)
-
 -- =========================================================================
 -- VÒNG LẶP LIVE KEY CHECKER LOOP (HOẠT ĐỘNG ĐỘC LẬP NGẦM - ANTI-CACHE)
 -- =========================================================================
@@ -604,7 +526,6 @@ task.spawn(function()
 while task.wait(10) do
 if KeyVerificationSuccess then
 local currentOnlineKey = GetLatestOnlineKey(MENU_KEY_URL)
-
             if not currentOnlineKey or currentOnlineKey ~= UserEnteredKey then
                 if ScreenGui then
                     ScreenGui:Destroy()
@@ -615,17 +536,13 @@ local currentOnlineKey = GetLatestOnlineKey(MENU_KEY_URL)
         end
     end
 end)
-
-
 end
-
 -- Khởi chạy Giao diện chính xác nhận ban đầu...
 local InitFrame = Instance.new("Frame")
 InitFrame.Name = "KeyMenuInit"
 InitFrame.Parent = ScreenGui
 InitFrame.Size = UDim2.new(1, 0, 1, 0)
 InitFrame.BackgroundTransparency = 1
-
 PromptKeySystem(
 InitFrame,
 "HE THONG PHAI NHAP KEY MENU",
@@ -636,7 +553,6 @@ InitFrame:Destroy()
 MainFrame.Position = UDim2.new(0.5, -250, 0.4, -175)
 MainFrame.Size = UDim2.new(0, 500, 0, 350)
 MainFrame.Visible = true
-
     TweenService:Create(MainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
         Position = UDim2.new(0.5, -250, 0.5, -175)
     }):Play()
@@ -647,6 +563,4 @@ end,
 function()
     ScreenGui:Destroy()
 end
-
-
 )
