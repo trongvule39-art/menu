@@ -478,7 +478,7 @@ AddScriptToTab("Tower Defense Simulator", "Script TDS Nexus", "Tu dong load ma n
 loadstring(game:HttpGet("https://raw.githubusercontent.com/trongvule39-art/Nexus/refs/heads/main/Nexus.txt"))()
 end)
 AddScriptToTab("Tower Defense Simulator", "TrVu-JunPop TDSAT", "Tai script TrVu-JunPop tu kho luu tru", { Value = "", IsUrl = false }, function()
-loadstring(game:HttpGet("https://pastefy.app/PzJuvfeA/raw"))()
+loadstring(game:HttpGet("https://pastefy.app/UBq6AJZ7/raw"))()
 end)
 AddScriptToTab("Tower Defense Simulator", "Anti AFK Bypass", "Chong bi kick khi treo may qua 20 phut (Yeu cau Key)", { Value = ANTIAFK_KEY, IsUrl = false }, function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/hassanxzayn-lua/Anti-afk/main/antiafkbyhassanxzyn"))()
