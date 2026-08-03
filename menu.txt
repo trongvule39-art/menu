@@ -7,7 +7,7 @@ game:GetService("CoreGui"):FindFirstChild("TrongVuHubMenu"):Destroy()
 end
 local TweenService = game:GetService("TweenService")
 local MENU_KEY_URL = "https://raw.githubusercontent.com/trongvule39-art/menu/refs/heads/main/keymenu.txt"
-local ZEPHYR_KEY = "HkdChimToNhatTheGioi"
+local ZEPHYR_KEY_URL = "https://raw.githubusercontent.com/trongvule39-art/key/refs/heads/main/key.txt"
 local OTHER_TAB_KEY_URL = "https://raw.githubusercontent.com/trongvule39-art/key/refs/heads/main/key.txt"
 local ANTIAFK_KEY = "AFKHKSEX"
 local UserEnteredKey = ""
